@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User
+from django.http import Http404
 from rest_framework import status
 from rest_framework.generics import (ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView,
                                      ListAPIView, RetrieveAPIView)
+from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from extended_user.models import ExtendedUser
@@ -24,7 +26,6 @@ class ExtendedUserList(ListCreateAPIView):
     serializer_class = ExtendedUserSerializer
 
     def create(self, request, *args, **kwargs):
-        print request.DATA
         username = request.DATA['username']
         password = request.DATA['password']
 
@@ -38,3 +39,15 @@ class ExtendedUserList(ListCreateAPIView):
 class ExtendedUserDetail(RetrieveUpdateDestroyAPIView):
     model = ExtendedUser
     serializer_class = ExtendedUserSerializer
+
+
+class Me(APIView):
+    def get(self, request):
+        if request.user.is_anonymous:
+            raise Http404()
+
+        user = request.user.extended_user
+
+        return Response({
+            'username': user.username
+        })

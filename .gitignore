@@ -1,2 +1,3 @@
 mileagebe/mileagebe/sensitive_settings.py
 db.*
+*.pyc
