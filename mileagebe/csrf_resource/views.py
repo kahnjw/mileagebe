@@ -5,4 +5,6 @@ from rest_framework.response import Response
 
 class Csrf(APIView):
     def get(self, request):
-        return Response(csrf(request))
+        csrf_token = csrf(request)
+        csrf_token['csrf_token'] = unicode(csrf_token['csrf_token'])
+        return Response(csrf_token)
