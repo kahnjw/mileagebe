@@ -43,11 +43,12 @@ class ExtendedUserDetail(RetrieveUpdateDestroyAPIView):
 
 class Me(APIView):
     def get(self, request):
-        if request.user.is_anonymous:
+        if request.user.is_anonymous():
             raise Http404()
-
-        user = request.user.extended_user
+        user = request.user
 
         return Response({
-            'username': user.username
+            'username': user.get_username(),
+            'first_name': user.first_name,
+            'last_name': user.last_name
         })
