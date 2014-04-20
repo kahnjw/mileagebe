@@ -26,7 +26,7 @@ class Session(APIView):
 
         if user and user.is_active:
             login(request, user)
-            return Response({'success': True})
+            return Response(status=status.HTTP_201_CREATED)
 
         return Response(status=status.HTTP_403_FORBIDDEN)
 
@@ -39,4 +39,4 @@ class AuthCheck(APIView):
     permission_classes = (IsAuthenticated, )
 
     def get(self, request):
-        return Response({'success': True})
+        return Response()
