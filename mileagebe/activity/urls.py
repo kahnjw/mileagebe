@@ -1,9 +1,11 @@
 from django.conf.urls import patterns, url
 
-from activity.views import SocialUserList
+from activity.views import StravaUser, StravaActivities, StravaGear
 
 
 urlpatterns = patterns(
     '',
-    url(r'$', SocialUserList.as_view(), name='extendeduser-list')
+    url(r'me/?$', StravaUser.as_view(), name='strava-me'),
+    url(r'activities/?$', StravaActivities.as_view(), name='strava-activites'),
+    url(r'gear/(?P<gear_id>\w+)/?$', StravaGear.as_view(), name='strava-gear')
 )

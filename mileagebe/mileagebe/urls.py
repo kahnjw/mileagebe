@@ -13,7 +13,7 @@ urlpatterns = patterns(
     url(r'^api/v1/auth/', include('auth.urls')),
     url(r'^api/v1/social-auth/',
         include('social.apps.django_app.urls', namespace='social')),
-    url(r'^api/v1/me/?$', include('activity.urls'))
+    url(r'^api/v1/', include('activity.urls'))
     # Examples:
     # url(r'^$', 'stompnet.views.home', name='home'),
     # url(r'^stompnet/', include('stompnet.foo.urls')),
