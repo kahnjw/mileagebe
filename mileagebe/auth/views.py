@@ -26,7 +26,9 @@ class Session(APIView):
 
         if user and user.is_active:
             login(request, user)
-            return Response(status=status.HTTP_201_CREATED)
+            return Response({
+                'ssuccess': True
+            }, status=status.HTTP_201_CREATED)
 
         return Response(status=status.HTTP_403_FORBIDDEN)
 
