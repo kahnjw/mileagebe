@@ -14,8 +14,11 @@ class StravaServiceClient(object):
             'access_token': access_token
         })
 
-    def get_user_data(self, user):
+    def get_user_data(self, user, metric=True):
         return self._make_request(user, 'athlete').json()
 
-    def get_activities(self, user):
+    def get_activities(self, user, metric=False):
         return self._make_request(user, 'activities').json()
+
+    def get_gear(self, user, gear_id, metric=True):
+        return self._make_request(user, 'gear/%s' % gear_id).json()

@@ -17,3 +17,11 @@ class StravaActivities(APIView):
         activities = service_client.get_activities(request.user)
 
         return Response(activities)
+
+
+class StravaGear(APIView):
+    def get(self, request, gear_id):
+        service_client = StravaServiceClient()
+        activities = service_client.get_gear(request.user, gear_id)
+
+        return Response(activities)
