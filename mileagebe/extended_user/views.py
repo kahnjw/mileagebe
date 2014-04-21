@@ -29,11 +29,11 @@ class ExtendedUserList(ListCreateAPIView):
         username = request.DATA['username']
         password = request.DATA['password']
 
-        try:
-            ExtendedUser().create(username, password)
-            return Response(status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        ext_user = ExtendedUser.create(username, password)
+        serialized_user = self.serializer_class(ext_user)
+
+        return Response(
+            serialized_user.data, status=status.HTTP_201_CREATED)
 
 
 class ExtendedUserDetail(RetrieveUpdateDestroyAPIView):
@@ -45,10 +45,9 @@ class Me(APIView):
     def get(self, request):
         if request.user.is_anonymous():
             raise Http404()
-        user = request.user
 
         return Response({
-            'username': user.get_username(),
-            'first_name': user.first_name,
-            'last_name': user.last_name
+            'username': request.user.get_username(),
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name
         })
