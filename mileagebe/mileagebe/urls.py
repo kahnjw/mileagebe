@@ -10,6 +10,7 @@ urlpatterns = patterns(
     '',
     url(r'^api/v1/users/', include('extended_user.urls')),
     url(r'^api/v1/csrf/?$', include('csrf_resource.urls')),
+    url(r'^api/v1/auth/', include('auth.urls'))
     # Examples:
     # url(r'^$', 'stompnet.views.home', name='home'),
     # url(r'^stompnet/', include('stompnet.foo.urls')),

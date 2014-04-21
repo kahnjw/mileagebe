@@ -31,6 +31,12 @@ class ExtendedUser(models.Model):
         self.user.password = value
         self.user.save()
 
-    def create(self, username, password, *args, **kwargs):
-        self.user = User.objects.create_user(username, password)
-        super(ExtendedUser, self).save(*args, **kwargs)
+    @classmethod
+    def create(cls, username, password):
+        extended_user = cls()
+        extended_user.user = User.objects.create_user(
+            username, password=password)
+        extended_user.user.set_password(password)
+        extended_user.user.save()
+        extended_user.save()
+        return extended_user
