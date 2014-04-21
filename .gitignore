@@ -1,5 +1,4 @@
 mileagebe/mileagebe/sensitive_settings.py
 db.*
-*.pyc
-
+**/*.pyc
 /mileagebe/csrf_resource/views.pyc

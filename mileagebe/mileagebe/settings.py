@@ -8,7 +8,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
-from sensitive_settings import SENSITIVE_SECRET_KEY
+from sensitive_settings import (SENSITIVE_SECRET_KEY,
+                                SENSITIVE_SOCIAL_AUTH_STRAVA_KEY,
+                                SENSITIVE_SOCIAL_AUTH_STRAVA_SECRET,
+                                SENSITIVE_SOCIAL_AUTH_AUTHENTICATION_BACKENDS)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -38,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social.apps.django_app.default',
     'rest_framework',
     'extended_user'
 )
@@ -84,3 +88,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Strava OAuth Configuration:
+SOCIAL_AUTH_STRAVA_KEY = SENSITIVE_SOCIAL_AUTH_STRAVA_KEY
+SOCIAL_AUTH_STRAVA_SECRET = SENSITIVE_SOCIAL_AUTH_STRAVA_SECRET
+AUTHENTICATION_BACKENDS = SENSITIVE_SOCIAL_AUTH_AUTHENTICATION_BACKENDS
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/#mileage'
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/#auth-error'
+SOCIAL_AUTH_LOGIN_URL = '/#login'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/#authenticate'
