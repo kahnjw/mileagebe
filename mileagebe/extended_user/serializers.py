@@ -1,18 +1,11 @@
-from rest_framework.serializers import HyperlinkedModelSerializer, CharField
-from django.contrib.auth.models import User
+from rest_framework.serializers import HyperlinkedModelSerializer
 
 from extended_user.models import ExtendedUser
 
 
 class ExtendedUserSerializer(HyperlinkedModelSerializer):
-    username = CharField()
-    password = CharField()
 
     class Meta:
-        fields = ('url', 'username', 'password', 'access_token', 'user')
+        fields = ('url', 'username', 'password')
+        write_only_fields = ('password', )
         model = ExtendedUser
-
-
-class UserSerializer(HyperlinkedModelSerializer):
-    class Meta:
-        model = User
