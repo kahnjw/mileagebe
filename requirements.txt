@@ -3,6 +3,7 @@ djangorestframework==2.3.0
 python-social-auth==0.1.23
 requests==2.2.1
 
+nose
 mock
 markdown
 django-filter
