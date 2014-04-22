@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from .views import Csrf
+from csrf.views import Csrf
 
 
 urlpatterns = patterns(
