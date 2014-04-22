@@ -55,7 +55,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'auth.middleware.StravaQueryParamFixMiddleware'
+    'strava_client.middleware.StravaQueryParamFixMiddleware'
 )
 
 ROOT_URLCONF = 'mileagebe.urls'
@@ -107,6 +107,6 @@ AUTHENTICATION_BACKENDS = sensitive_settings.SOCIAL_AUTH_AUTHENTICATION_BACKENDS
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/#mileage'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/#auth-error'
 SOCIAL_AUTH_LOGIN_URL = '/#login'
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/#authenticate'
-SOCIAL_AUTH_USER_MODEL = 'extended_user.ExtendedUser'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/#profile'
+
 AUTH_USER_MODEL = 'extended_user.ExtendedUser'
