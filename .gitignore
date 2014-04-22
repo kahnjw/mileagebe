@@ -1,4 +1,10 @@
 mileagebe/mileagebe/sensitive_settings.py
 db.*
-**/*.pyc
-/mileagebe/csrf_resource/views.pyc
+/.coverage
+*.egg-info/
+build/
+dist/
+sdist/
+virtualenv/
+*.pyc
+tests/*.db
