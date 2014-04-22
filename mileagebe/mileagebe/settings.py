@@ -7,11 +7,10 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
-
-from sensitive_settings import (SENSITIVE_SECRET_KEY,
-                                SENSITIVE_SOCIAL_AUTH_STRAVA_KEY,
-                                SENSITIVE_SOCIAL_AUTH_STRAVA_SECRET,
-                                SENSITIVE_SOCIAL_AUTH_AUTHENTICATION_BACKENDS)
+try:
+    from mileagebe import sensitive_settings
+except:
+    from mileagebe import fake_sensitive_settings as sensitive_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -22,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SENSITIVE_SECRET_KEY
+SECRET_KEY = sensitive_settings.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -44,7 +43,8 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'rest_framework',
     'extended_user',
-    'activity'
+    'activity',
+    'django_nose'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -85,6 +85,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
@@ -98,9 +99,9 @@ USE_X_FORWARDED_HOST = True
 STRAVA_BASE_URI = 'https://www.strava.com/api/v3/'
 
 # Strava OAuth Configuration:
-SOCIAL_AUTH_STRAVA_KEY = SENSITIVE_SOCIAL_AUTH_STRAVA_KEY
-SOCIAL_AUTH_STRAVA_SECRET = SENSITIVE_SOCIAL_AUTH_STRAVA_SECRET
-AUTHENTICATION_BACKENDS = SENSITIVE_SOCIAL_AUTH_AUTHENTICATION_BACKENDS
+SOCIAL_AUTH_STRAVA_KEY = sensitive_settings.SOCIAL_AUTH_STRAVA_KEY
+SOCIAL_AUTH_STRAVA_SECRET = sensitive_settings.SOCIAL_AUTH_STRAVA_SECRET
+AUTHENTICATION_BACKENDS = sensitive_settings.SOCIAL_AUTH_AUTHENTICATION_BACKENDS
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/#mileage'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/#auth-error'
