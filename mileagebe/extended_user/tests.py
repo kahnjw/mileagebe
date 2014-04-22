@@ -22,13 +22,13 @@ class ExtendedUserSerializerTests(TestCase):
 
 class ExtendedUserListTests(TestCase):
     def setUp(self):
-        factory = RequestFactory()
+        self.factory = RequestFactory()
         data = {
             'username': 'Bob',
             'password': 'Saget'
         }
 
-        request = factory.post('/api/v1/users/', data, format='json')
+        request = self.factory.post('/api/v1/users/', data, format='json')
         response = ExtendedUserList.as_view()(request)
         response.render()
         self.response_body = json.loads(response.content)
@@ -39,6 +39,15 @@ class ExtendedUserListTests(TestCase):
     def test_endopint_returns_user_representation(self):
         self.assertEqual(self.response_body['username'], 'Bob')
         self.assertEqual(self.response_body['url'], '/api/v1/users/1')
+
+    def test_endopint_returns_400_on_bad_input(self):
+        data = {
+            'username': '',
+            'password': 'Saget'
+        }
+        request = self.factory.post('/api/v1/users/', data, format='json')
+        response = ExtendedUserList.as_view()(request)
+        self.assertEqual(response.status_code, 400)
 
 
 class MeEndpointTests(TestCase):

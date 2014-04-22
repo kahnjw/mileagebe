@@ -16,10 +16,14 @@ class ExtendedUserList(ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         username = request.DATA['username']
         password = request.DATA['password']
+        try:
+            ext_user = ExtendedUser.objects.create_user(
+                username, password=password)
+            serialized_user = self.serializer_class(ext_user)
 
-        ext_user = ExtendedUser.objects.create_user(
-            username, password=password)
-        serialized_user = self.serializer_class(ext_user)
+        except ValueError:
+            error = {'error': 'BAD_INPUT'}
+            return Response(error, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(
             serialized_user.data, status=status.HTTP_201_CREATED)
