@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from activity.service_clients import StravaServiceClient
+from activities.service_clients import StravaServiceClient
 
 
 class StravaUser(APIView):

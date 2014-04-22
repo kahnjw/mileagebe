@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from activity.views import StravaUser, StravaActivities, StravaGear
+from activities.views import StravaUser, StravaActivities, StravaGear
 
 
 urlpatterns = patterns(

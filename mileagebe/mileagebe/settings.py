@@ -43,7 +43,7 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'rest_framework',
     'extended_user',
-    'activity',
+    'activities',
     'django_nose'
 )
 
