@@ -1,7 +1,10 @@
-from django.test import TestCase
+import json
+
+from django.test import TestCase, RequestFactory
 from mock import Mock, patch
 
 from activities.service_clients import StravaServiceClient
+from activities.views import StravaUser, StravaActivities, StravaGear
 
 
 class ServiceClientTests(TestCase):
@@ -41,3 +44,31 @@ class ServiceClientTests(TestCase):
         self.requests.get.assert_called_with(
             'https://www.strava.com/api/v3/gear/123',
             params={'access_token': 123})
+
+
+class ViewsTests(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.request = self.factory.get('fake/url')
+
+        self.client_pather = patch('activities.views.StravaServiceClient')
+        self.client = self.client_pather.start()
+
+        self.client.get_user_data.return_value = {'user': 'data'}
+        self.client.get_activities.return_value = {'activities': 'data'}
+        self.client.get_gear.return_value = {'gear': 'data'}
+
+    def test_strava_user_endpoint_returns_user_data(self):
+        response = StravaUser.as_view()(self.request)
+        response.render()
+        self.assertEqual(json.loads(response.content), {'user': 'data'})
+
+    def test_strava_activities_endpoint_returns_activities_data(self):
+        response = StravaActivities.as_view()(self.request)
+        response.render()
+        self.assertEqual(json.loads(response.content), {'activities': 'data'})
+
+    def test_strava_gear_endpoint_returns_gear_data(self):
+        response = StravaGear.as_view()(self.request, '123')
+        response.render()
+        self.assertEqual(json.loads(response.content), {'gear': 'data'})
