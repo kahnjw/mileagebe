@@ -1,4 +1,4 @@
-from django.test import TestCase, RequestFactory
+from django.test import TestCase
 from mock import Mock, patch
 
 from activities.service_clients import StravaServiceClient
@@ -6,8 +6,6 @@ from activities.service_clients import StravaServiceClient
 
 class ServiceClientTests(TestCase):
     def setUp(self):
-        self.factory = RequestFactory()
-
         self.requests_patcher = patch('activities.service_clients.requests')
         self.requests = self.requests_patcher.start()
 
