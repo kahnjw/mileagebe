@@ -21,8 +21,6 @@ class ExtendedUserList(ListCreateAPIView):
             username, password=password)
         serialized_user = self.serializer_class(ext_user)
 
-        print dir(ext_user)
-
         return Response(
             serialized_user.data, status=status.HTTP_201_CREATED)
 
@@ -33,12 +31,12 @@ class ExtendedUserDetail(RetrieveUpdateDestroyAPIView):
 
 
 class Me(APIView):
+    serializer_class = ExtendedUserSerializer
+
     def get(self, request):
         if request.user.is_anonymous():
             raise Http404()
 
-        return Response({
-            'username': request.user.get_username(),
-            'first_name': request.user.first_name,
-            'last_name': request.user.last_name
-        })
+        serialized_user = self.serializer_class(request.user)
+
+        return Response(serialized_user.data)
