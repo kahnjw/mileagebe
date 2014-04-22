@@ -3,13 +3,13 @@ import json
 from django.test import TestCase, RequestFactory
 from mock import Mock, patch
 
-from activities.service_clients import StravaServiceClient
-from activities.views import StravaUser, StravaActivities, StravaGear
+from strava_client.service_clients import StravaServiceClient
+from strava_client.views import StravaUser, StravaActivities, StravaGear
 
 
 class ServiceClientTests(TestCase):
     def setUp(self):
-        self.requests_patcher = patch('activities.service_clients.requests')
+        self.requests_patcher = patch('strava_client.service_clients.requests')
         self.requests = self.requests_patcher.start()
 
         self.user = Mock()
@@ -51,7 +51,7 @@ class ViewsTests(TestCase):
         self.factory = RequestFactory()
         self.request = self.factory.get('fake/url')
 
-        self.client_pather = patch('activities.views.StravaServiceClient')
+        self.client_pather = patch('strava_client.views.StravaServiceClient')
         self.client = self.client_pather.start()
 
         self.client.get_user_data.return_value = {'user': 'data'}

@@ -12,7 +12,7 @@ urlpatterns = patterns(
     url(r'^api/v1/csrf/?$', include('csrf_resource.urls')),
     url(r'^api/v1/social-auth/',
         include('social.apps.django_app.urls', namespace='social')),
-    url(r'^api/v1/', include('activities.urls'))
+    url(r'^api/v1/', include('strava_client.urls'))
     # Examples:
     # url(r'^$', 'stompnet.views.home', name='home'),
     # url(r'^stompnet/', include('stompnet.foo.urls')),
