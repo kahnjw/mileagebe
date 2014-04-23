@@ -18,21 +18,21 @@ class StravaServiceClient(object):
         return '%s%s' % (settings.STRAVA_BASE_URI, endpoint)
 
     @classmethod
-    def _convert(cls, data, endpoint, **conversions):
+    def _convert(cls, data, endpoint, **convs):
         units_subset = cls.units_mapping[endpoint]
-        for conversion in conversions:
-            original_unit = cls._get_unit(units_subset[conversion])
+        for conv in convs:
+            original_unit = cls._get_unit(units_subset[conv])
 
             try:
-                new_unit = cls._get_unit(conversions[conversion])
+                new_unit = cls._get_unit(convs[conv])
             except UndefinedUnitError:
-                message = '%s is not a valid unit' % conversions[conversion]
+                message = '%s is not a valid unit' % convs[conv]
                 raise UndefinedUnitError(message)
 
-            original_data_point = data[conversion] * original_unit
+            original_data_point = data[conv] * original_unit
             converted_data_point = original_data_point.to(new_unit)
 
-            data[conversion] = converted_data_point.magnitude
+            data[conv] = round(converted_data_point.magnitude, 2)
 
         return data
 
@@ -53,25 +53,26 @@ class StravaServiceClient(object):
         })
 
     @classmethod
-    def get_user_data(cls, user, **conversions):
+    def get_user_data(cls, user, **convs):
         data = cls._make_request(user, 'athlete').json()
 
-        if conversions:
-            return cls._convert(data, 'user_data', **conversions)
+        if convs:
+            return cls._convert(data, 'user_data', **convs)
         return data
 
     @classmethod
-    def get_activities(cls, user, **conversions):
+    def get_activities(cls, user, **convs):
         data = cls._make_request(user, 'activities').json()
 
-        if conversions:
-            return cls._convert(data, 'activities', **conversions)
-        return data
+        if not convs:
+            return data
+
+        return [cls._convert(act, 'activities', **convs) for act in data]
 
     @classmethod
-    def get_gear(cls, user, gear_id, **conversions):
+    def get_gear(cls, user, gear_id, **convs):
         data = cls._make_request(user, 'gear/%s' % gear_id).json()
 
-        if conversions:
-            return cls._convert(data, 'gear', **conversions)
+        if convs:
+            return cls._convert(data, 'gear', **convs)
         return data

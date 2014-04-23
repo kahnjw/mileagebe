@@ -5,8 +5,7 @@ from mock import Mock, patch
 from pint import UndefinedUnitError
 
 from strava_client.service_clients import StravaServiceClient
-from strava_client.views import (StravaUser, StravaActivities, StravaGear,
-                                 StravaBaseAPIView)
+from strava_client.views import StravaUser, StravaActivities, StravaGear
 
 
 class ServiceClientBaseTestSetup(TestCase):
@@ -56,26 +55,33 @@ class ServiceClientTests(ServiceClientBaseTestSetup):
 
 class ServiceClientUnitConversionTests(ServiceClientBaseTestSetup):
     def setUp(self):
-        data = {
-            'distance': 16029.34,
-            'average_temp': 24,
-            'max_speed': 10
+        data = [
+            {
+                'distance': 16029.34,
+                'average_temp': 24,
+                'max_speed': 10
 
-        }
+            },
+            {
+                'distance': 54.34,
+                'average_temp': 21,
+                'max_speed': 7
+            }
+        ]
         super(ServiceClientUnitConversionTests, self).setUp(data)
         self.actual_data = StravaServiceClient.get_activities(
             self.user, distance='miles')
 
     def test_meters_converts_to_miles(self):
-        self.assertEqual(self.actual_data['distance'], 9.960170106577586)
+        self.assertEqual(self.actual_data[0]['distance'], 9.96)
 
     def test_meters_second_to_miles_per_hour(self):
         self.actual_data = StravaServiceClient.get_activities(
             self.user, max_speed=('miles', 'hour'))
-        self.assertEqual(self.actual_data['max_speed'], 22.36936292054402)
+        self.assertEqual(self.actual_data[0]['max_speed'], 22.37)
 
     def test_does_not_affect_other_data(self):
-        self.assertEqual(self.actual_data['average_temp'], 24)
+        self.assertEqual(self.actual_data[0]['average_temp'], 24)
 
     def test_raises_bad_units_with_given_bad_unit_string(self):
         self.assertRaises(UndefinedUnitError,
