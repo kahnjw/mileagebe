@@ -2,6 +2,7 @@ django==1.6
 djangorestframework==2.3.0
 python-social-auth==0.1.23
 requests==2.2.1
+Pint==0.4.2
 
 coveralls==0.4.1
 mock==1.0
