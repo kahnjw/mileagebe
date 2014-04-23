@@ -2,13 +2,15 @@ import json
 
 from django.test import TestCase, RequestFactory
 from mock import Mock, patch
+from pint import UndefinedUnitError
 
-from strava_client.service_clients import StravaServiceClient
+from strava_client.service_clients import StravaServiceClient, BadUnits
 from strava_client.views import StravaUser, StravaActivities, StravaGear
 
 
-class ServiceClientTests(TestCase):
-    def setUp(self):
+class ServiceClientBaseTestSetup(TestCase):
+    def setUp(self, data=None):
+        self.data = data or self.data
         self.requests_patcher = patch('strava_client.service_clients.requests')
         self.requests = self.requests_patcher.start()
 
@@ -19,9 +21,14 @@ class ServiceClientTests(TestCase):
             return self.auth_model
 
         self.user.social_auth.get = get
-        self.data = {'some': 'data'}
         self.requests.get.return_value = Mock(json=lambda: self.data)
         self.actual_data = StravaServiceClient.get_user_data(self.user)
+
+
+class ServiceClientTests(ServiceClientBaseTestSetup):
+    def setUp(self):
+        data = {'some': 'data'}
+        super(ServiceClientTests, self).setUp(data)
 
     def test_calls_requests_get_function(self):
         self.actual_data = StravaServiceClient.get_user_data(self.user)
@@ -44,6 +51,27 @@ class ServiceClientTests(TestCase):
         self.requests.get.assert_called_with(
             'https://www.strava.com/api/v3/gear/123',
             params={'access_token': 123})
+
+
+class ServiceClientUnitConversionTests(ServiceClientBaseTestSetup):
+    def setUp(self):
+        data = {
+            'distance': 16029.34,
+            'average_temp': 24
+        }
+        super(ServiceClientUnitConversionTests, self).setUp(data)
+        self.actual_data = StravaServiceClient.get_gear(
+            self.user, '123', distance='miles')
+
+    def test_distance_converts_to_miles(self):
+        self.assertEqual(self.actual_data['distance'], 9.960170106577586)
+
+    def test_does_not_affect_other_data(self):
+        self.assertEqual(self.actual_data['average_temp'], 24)
+
+    def test_raises_bad_units_with_given_bad_unit_string(self):
+        self.assertRaises(UndefinedUnitError, StravaServiceClient.get_gear,
+                          self.user, '123', distance='bad_unit')
 
 
 class ViewsTests(TestCase):
