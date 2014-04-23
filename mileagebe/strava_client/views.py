@@ -3,21 +3,34 @@ from rest_framework.response import Response
 from strava_client.service_clients import StravaServiceClient
 
 
-class StravaUser(APIView):
+class StravaBaseAPIView(APIView):
+    def _process_conversions(self, conversions):
+        parsed = {}
+        for key in conversions:
+            parsed[key] = conversions[key]
+            if '.' in parsed[key]:
+                parsed[key] = parsed[key].split('.', 1)
+
+        return parsed
+
+
+class StravaUser(StravaBaseAPIView):
     def get(self, request):
         strava_user = StravaServiceClient.get_user_data(request.user)
 
         return Response(strava_user)
 
 
-class StravaActivities(APIView):
+class StravaActivities(StravaBaseAPIView):
     def get(self, request):
-        activities = StravaServiceClient.get_activities(request.user)
+        conversions = self._process_conversions(request.QUERY_PARAMS)
+        activities = StravaServiceClient.get_activities(
+            request.user, **conversions)
 
         return Response(activities)
 
 
-class StravaGear(APIView):
+class StravaGear(StravaBaseAPIView):
     def get(self, request, gear_id):
         activities = StravaServiceClient.get_gear(request.user, gear_id)
 

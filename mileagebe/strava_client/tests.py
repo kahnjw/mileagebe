@@ -5,7 +5,8 @@ from mock import Mock, patch
 from pint import UndefinedUnitError
 
 from strava_client.service_clients import StravaServiceClient
-from strava_client.views import StravaUser, StravaActivities, StravaGear
+from strava_client.views import (StravaUser, StravaActivities, StravaGear,
+                                 StravaBaseAPIView)
 
 
 class ServiceClientBaseTestSetup(TestCase):
@@ -91,7 +92,7 @@ class ViewsTests(TestCase):
         self.client = self.client_pather.start()
 
         self.client.get_user_data.return_value = {'user': 'data'}
-        self.client.get_activities.return_value = {'activities': 'data'}
+        self.client.get_activities.return_value = {'distance': 10}
         self.client.get_gear.return_value = {'gear': 'data'}
 
     def test_strava_user_endpoint_returns_user_data(self):
@@ -102,9 +103,20 @@ class ViewsTests(TestCase):
     def test_strava_activities_endpoint_returns_activities_data(self):
         response = StravaActivities.as_view()(self.request)
         response.render()
-        self.assertEqual(json.loads(response.content), {'activities': 'data'})
+        self.assertEqual(json.loads(response.content), {'distance': 10})
 
     def test_strava_gear_endpoint_returns_gear_data(self):
         response = StravaGear.as_view()(self.request, '123')
         response.render()
         self.assertEqual(json.loads(response.content), {'gear': 'data'})
+
+    def test_strava_activities_endpoint_takes_query_parameters(self):
+        request = self.factory.get('fake/url', {
+            'distance': 'miles',
+            'max_speed': 'miles.hour'
+        })
+        request.user = 'user'
+        StravaActivities.as_view()(request)
+        self.client.get_activities.assert_called_with(
+            request.user, distance='miles', max_speed=['miles', 'hour'])
+
