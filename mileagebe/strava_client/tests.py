@@ -4,7 +4,7 @@ from django.test import TestCase, RequestFactory
 from mock import Mock, patch
 from pint import UndefinedUnitError
 
-from strava_client.service_clients import StravaServiceClient, BadUnits
+from strava_client.service_clients import StravaServiceClient
 from strava_client.views import StravaUser, StravaActivities, StravaGear
 
 
@@ -57,21 +57,29 @@ class ServiceClientUnitConversionTests(ServiceClientBaseTestSetup):
     def setUp(self):
         data = {
             'distance': 16029.34,
-            'average_temp': 24
+            'average_temp': 24,
+            'max_speed': 10
+
         }
         super(ServiceClientUnitConversionTests, self).setUp(data)
-        self.actual_data = StravaServiceClient.get_gear(
-            self.user, '123', distance='miles')
+        self.actual_data = StravaServiceClient.get_activities(
+            self.user, distance='miles')
 
-    def test_distance_converts_to_miles(self):
+    def test_meters_converts_to_miles(self):
         self.assertEqual(self.actual_data['distance'], 9.960170106577586)
+
+    def test_meters_second_to_miles_per_hour(self):
+        self.actual_data = StravaServiceClient.get_activities(
+            self.user, max_speed=('miles', 'hour'))
+        self.assertEqual(self.actual_data['max_speed'], 22.36936292054402)
 
     def test_does_not_affect_other_data(self):
         self.assertEqual(self.actual_data['average_temp'], 24)
 
     def test_raises_bad_units_with_given_bad_unit_string(self):
-        self.assertRaises(UndefinedUnitError, StravaServiceClient.get_gear,
-                          self.user, '123', distance='bad_unit')
+        self.assertRaises(UndefinedUnitError,
+                          StravaServiceClient.get_activities, self.user,
+                          distance='bad_unit')
 
 
 class ViewsTests(TestCase):

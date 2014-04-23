@@ -8,26 +8,23 @@ from pint import UnitRegistry, UndefinedUnitError
 APP_PATH = os.path.abspath(os.path.dirname(__file__))
 
 
-class BadUnits(Exception):
-    pass
-
-
 class StravaServiceClient(object):
     ureg = UnitRegistry()
     units_mapping_file = open('%s/units_mapping.json' % APP_PATH)
-    units_mapping = json.load(units_mapping_file)['activities']
+    units_mapping = json.load(units_mapping_file)
 
     @classmethod
     def _build_uri(cls, endpoint):
         return '%s%s' % (settings.STRAVA_BASE_URI, endpoint)
 
     @classmethod
-    def _convert(cls, data, **conversions):
+    def _convert(cls, data, endpoint, **conversions):
+        units_subset = cls.units_mapping[endpoint]
         for conversion in conversions:
-            original_unit = getattr(cls.ureg, cls.units_mapping[conversion])
+            original_unit = cls._get_unit(units_subset[conversion])
 
             try:
-                new_unit = getattr(cls.ureg, conversions[conversion])
+                new_unit = cls._get_unit(conversions[conversion])
             except UndefinedUnitError:
                 message = '%s is not a valid unit' % conversions[conversion]
                 raise UndefinedUnitError(message)
@@ -38,6 +35,13 @@ class StravaServiceClient(object):
             data[conversion] = converted_data_point.magnitude
 
         return data
+
+    @classmethod
+    def _get_unit(cls, unit):
+        if type(unit) is tuple or type(unit) is list:
+            return getattr(cls.ureg, unit[0]) / getattr(cls.ureg, unit[1])
+
+        return getattr(cls.ureg, unit)
 
     @classmethod
     def _make_request(cls, user, endpoint):
@@ -51,14 +55,23 @@ class StravaServiceClient(object):
     @classmethod
     def get_user_data(cls, user, **conversions):
         data = cls._make_request(user, 'athlete').json()
-        return cls._convert(data, **conversions)
+
+        if conversions:
+            return cls._convert(data, 'user_data', **conversions)
+        return data
 
     @classmethod
     def get_activities(cls, user, **conversions):
         data = cls._make_request(user, 'activities').json()
-        return cls._convert(data, **conversions)
+
+        if conversions:
+            return cls._convert(data, 'activities', **conversions)
+        return data
 
     @classmethod
     def get_gear(cls, user, gear_id, **conversions):
         data = cls._make_request(user, 'gear/%s' % gear_id).json()
-        return cls._convert(data, **conversions)
+
+        if conversions:
+            return cls._convert(data, 'gear', **conversions)
+        return data
