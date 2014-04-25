@@ -5,7 +5,9 @@ from strava_client.service_clients import StravaServiceClient
 
 class ActivityManager(models.Manager):
     def refresh(self):
-        raw_acts = StravaServiceClient.get_activities()
+        raw_acts = StravaServiceClient.get_activities(
+            distance='miles', max_speed='miles.hour',
+            average_speed='miles.hour', total_elevation_gain='feet')
         return [self._save_activity(raw_act) for raw_act in raw_acts]
 
     def _save_activity(self, raw_act):
@@ -26,7 +28,7 @@ class ActivityManager(models.Manager):
 class Activity(models.Model):
     objects = ActivityManager()
 
-    strava_id = models.CharField(max_length=255)
+    strava_id = models.CharField(max_length=255, null=True, blank=True)
     location_city = models.CharField(max_length=255)
     distance = models.FloatField(default=0)
     moving_time = models.FloatField(default=0)
