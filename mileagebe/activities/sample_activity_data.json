@@ -1,0 +1,164 @@
+[
+    {
+        "athlete_count": 1, 
+        "trainer": false, 
+        "average_watts": 133.5, 
+        "kilojoules": 1078.9, 
+        "start_date_local": "2014-04-20T13:52:10Z", 
+        "private": false, 
+        "commute": false, 
+        "timezone": "(GMT-08:00) America/Los_Angeles", 
+        "id": 132421905, 
+        "location_city": "San Francisco", 
+        "location_country": "United States", 
+        "kudos_count": 1, 
+        "gear_id": null, 
+        "truncated": null, 
+        "average_speed": 5.2, 
+        "elapsed_time": 8543, 
+        "start_longitude": -122.42, 
+        "comment_count": 0, 
+        "type": "Ride", 
+        "start_date": "2014-04-20T20:52:10Z", 
+        "map": {
+            "resource_state": 2, 
+            "id": "a132421905", 
+            "summary_polyline": "}vseFzjdjVqCUlB|[agB~Si@bJaIxELbJdRhPk@|N_H`PhVtxC}Cnl@gVdVyAbWwBSzBnEwoCpQwNbQbM~FvHuBnDdOoXtOxAfOkG~OzJpF|@vK|FdFtKaCjKtJyGfVbGjKx@hN}KtXtH|l@gJxe@xLxBxDrJxGwAhC`HoI~DyEwGk@gJ}HqBsJ`JkD_ZqCoAE`LoGrHrE|q@{Cf_@yLfI`DnFoItFi@{FuL~@n@s_@zOtBdEuDq@}XzL_QwBqWtGmJo@gIgHyCmAeGrG_`@LiWcLuk@yNyLlDkHEoGcDwChCmJwKaHvGbBjPuLl@aKpDiDqAsOdX{NcDaPcU?nCcMxImFlmCyQkBaEbDmCoBe@vCgQtHsLfWiEz@}JcKtAxCqg@gVswC~G}O|@{NuQsOo@yJfIgFnAmJdnAwNLuItNiBe@sHpJ_BSkF"
+        }, 
+        "photo_count": 0, 
+        "location_state": "CA", 
+        "moving_time": 8079, 
+        "start_latlng": [
+            37.79, 
+            -122.42
+        ], 
+        "max_speed": 17.9, 
+        "end_latlng": [
+            37.79, 
+            -122.42
+        ], 
+        "has_kudoed": false, 
+        "distance": 41727.6, 
+        "name": "Rodeo Loop", 
+        "total_elevation_gain": 697.1, 
+        "athlete": {
+            "resource_state": 1, 
+            "id": 4219088
+        }, 
+        "manual": false, 
+        "flagged": false, 
+        "upload_id": 144908881, 
+        "resource_state": 2, 
+        "achievement_count": 17, 
+        "external_id": "A1A56A6A-A561-4697-9E2E-E759757CAA28", 
+        "start_latitude": 37.79
+    }, 
+    {
+        "athlete_count": 1, 
+        "trainer": false, 
+        "average_watts": 133.4, 
+        "kilojoules": 1090.5, 
+        "start_date_local": "2014-04-18T17:43:27Z", 
+        "private": false, 
+        "commute": false, 
+        "timezone": "(GMT-08:00) America/Los_Angeles", 
+        "id": 131708415, 
+        "location_city": "San Francisco", 
+        "location_country": "United States", 
+        "kudos_count": 0, 
+        "gear_id": null, 
+        "truncated": null, 
+        "average_speed": 5.2, 
+        "elapsed_time": 8907, 
+        "start_longitude": -122.42, 
+        "comment_count": 0, 
+        "type": "Ride", 
+        "start_date": "2014-04-19T00:43:27Z", 
+        "map": {
+            "resource_state": 2, 
+            "id": "a131708415", 
+            "summary_polyline": "yvseFfjdjVwCo@lB~\\ifBfTy@bJiItED`JdSvQ_AzMaH`PhVlxC_Dvl@aMhIoFpMiEjMpBlAw@dEsBKbC~DgnCxQ{LbNq@~E`OzB~DsCdDrOiXjOrAnOiGbP|JhFbApKhFjF|KoBlKnJyGbV~F|J|@tN}KlXtHhm@oJde@nLzBdE~J|GwAjCbHgInEaFgHk@gJ_IqBsJ`JsDyZwIuBvEvKcHfLnEbp@mCd_@_MjJnDrEgIzFeAiFcLh@f@c_@pOjBdEeDm@eYpLsOmBcYtGiIo@_JyJcKn@yPjFaPRoUgLil@_OsMrDcHqDyKdCiKqKgG|GzAbPsLn@_KrDmDuAmOlXkOkD_PeUCpCsL~IuFjhBaHjd@aIgBcEdAvAjA}EeBqAnE_SzG}IzUsDbAgKmKtAdDag@iVywC~GcP\\iNsBmGwMuHQ{IvH_FrAqJhnAaOY_I~OwBg@eI~IiA_@aH"
+        }, 
+        "photo_count": 0, 
+        "location_state": "CA", 
+        "moving_time": 8176, 
+        "start_latlng": [
+            37.79, 
+            -122.42
+        ], 
+        "max_speed": 19.3, 
+        "end_latlng": [
+            37.79, 
+            -122.42
+        ], 
+        "has_kudoed": false, 
+        "distance": 42151.3, 
+        "name": "Rodeo Loop", 
+        "total_elevation_gain": 687.7, 
+        "athlete": {
+            "resource_state": 1, 
+            "id": 4219088
+        }, 
+        "manual": false, 
+        "flagged": false, 
+        "upload_id": 144130248, 
+        "resource_state": 2, 
+        "achievement_count": 6, 
+        "external_id": "1C35758C-368C-4BAC-B9C9-DA608830080E", 
+        "start_latitude": 37.79
+    }, 
+    {
+        "athlete_count": 1, 
+        "trainer": false, 
+        "average_watts": 143.6, 
+        "kilojoules": 932.3, 
+        "start_date_local": "2014-04-17T17:36:30Z", 
+        "private": false, 
+        "commute": false, 
+        "timezone": "(GMT-08:00) America/Los_Angeles", 
+        "id": 131357713, 
+        "location_city": "San Francisco", 
+        "location_country": "United States", 
+        "kudos_count": 0, 
+        "gear_id": null, 
+        "truncated": null, 
+        "average_speed": 5.4, 
+        "elapsed_time": 6735, 
+        "start_longitude": -122.42, 
+        "comment_count": 0, 
+        "type": "Ride", 
+        "start_date": "2014-04-18T00:36:30Z", 
+        "map": {
+            "resource_state": 2, 
+            "id": "a131357713", 
+            "summary_polyline": "gwseFhjdjVrA}@aEI]|BnAjZseBtS{@jJsHzD@hJ~D|EnHtBdCjGqA~CZxH_HpPbRpnCbClHcDrn@uDtEuFd@wHtLTvCoD|KRrApAq@c@fDy@hA{@kA~BxD}HlBcfCbNkGpDoEbJd@|DbKxBxHyBf@tHhCzDmBlDmHHoK`Jj@hEs@tCvAtDqDjDsApJbKvFx@zKxF~EnKaChBpEdH~CwAvJaEfJbGlKx@jN}KdYrDtMe@~MfDzN_IpX\\`EmAhDhL~C}@rAwGu@cIzIcDcMOyL_MsCuAgCZoS`GqQNsTuJy^w@qLaOoMbEiIMuEoDkEhCcJiFSsDeH|GdCpIoJtE}@n@wJvDuDwAmDp@qCo@qExEmFtE_ChG@rB}CcCeEu@aJeDjCqOgCdC{KdDyDrhC_QfIkD^~@mB_EfAbAh@kARuCuAL@qBlDeJa@eCzEsDdAkFrHs@vG_ErEF]{CfAsFyJzAfDgg@aCuGgR_oC|GePWmIlA_DmCyFyGaBgDyDk@}JzH_FlAqJxnAcOw@yGvP}Cu@gHvIcB`@}E"
+        }, 
+        "photo_count": 0, 
+        "location_state": "CA", 
+        "moving_time": 6491, 
+        "start_latlng": [
+            37.79, 
+            -122.42
+        ], 
+        "max_speed": 17.2, 
+        "end_latlng": [
+            37.79, 
+            -122.42
+        ], 
+        "has_kudoed": false, 
+        "distance": 35332.4, 
+        "name": "Marin headlands loop", 
+        "total_elevation_gain": 574.8, 
+        "athlete": {
+            "resource_state": 1, 
+            "id": 4219088
+        }, 
+        "manual": false, 
+        "flagged": false, 
+        "upload_id": 143750178, 
+        "resource_state": 2, 
+        "achievement_count": 18, 
+        "external_id": "DE4AF3BC-C577-4EF7-9453-26F19A7BCB81", 
+        "start_latitude": 37.79
+    }
+]
