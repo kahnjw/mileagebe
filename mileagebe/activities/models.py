@@ -26,7 +26,7 @@ class ActivityManager(models.Manager):
 class Activity(models.Model):
     objects = ActivityManager()
 
-    strava_id = models.CharField(max_length=255)
+    strava_id = models.CharField(max_length=255, null=True, blank=True)
     location_city = models.CharField(max_length=255)
     distance = models.FloatField(default=0)
     moving_time = models.FloatField(default=0)
