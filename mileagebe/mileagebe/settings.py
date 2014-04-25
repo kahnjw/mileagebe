@@ -1,37 +1,17 @@
-"""
-Django settings for mileagebe project.
+import os
 
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
-"""
 try:
     from mileagebe import sensitive_settings
 except:
     from mileagebe import fake_sensitive_settings as sensitive_settings
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = sensitive_settings.SECRET_KEY
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = []
 
-
-# Application definition
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -45,6 +25,8 @@ INSTALLED_APPS = (
     'csrf',
     'extended_user',
     'strava_client',
+    'activities',
+    'gear',
     'django_nose'
 )
 
@@ -59,7 +41,6 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'mileagebe.urls'
-
 WSGI_APPLICATION = 'mileagebe.wsgi.application'
 
 
@@ -77,15 +58,10 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # Static files (CSS, JavaScript, Images)
