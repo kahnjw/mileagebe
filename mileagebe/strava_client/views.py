@@ -28,10 +28,3 @@ class StravaActivities(StravaBaseAPIView):
             request.user, **conversions)
 
         return Response(activities)
-
-
-class StravaGear(StravaBaseAPIView):
-    def get(self, request, gear_id):
-        activities = StravaServiceClient.get_gear(request.user, gear_id)
-
-        return Response(activities)

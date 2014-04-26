@@ -1,8 +1,10 @@
-from rest_framework import routers
+from django.conf.urls import patterns, url
 
-from activities.views import ActivityViewSet
+from activities.views import ActivityList, ActivityDetail
 
 
-router = routers.SimpleRouter()
-router.register(r'items', ActivityViewSet)
-urlpatterns = router.urls
+urlpatterns = patterns(
+    '',
+    url(r'(?P<pk>\d+)/?$', ActivityDetail.as_view(), name='activity-detail'),
+    url(r'$', ActivityList.as_view(), name='activity-list')
+)

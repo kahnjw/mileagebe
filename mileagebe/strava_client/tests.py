@@ -5,7 +5,7 @@ from mock import Mock, patch
 from pint import UndefinedUnitError
 
 from strava_client.service_clients import StravaServiceClient
-from strava_client.views import StravaUser, StravaActivities, StravaGear
+from strava_client.views import StravaUser, StravaActivities
 
 
 class ServiceClientBaseTestSetup(TestCase):
@@ -17,10 +17,10 @@ class ServiceClientBaseTestSetup(TestCase):
         self.user = Mock()
         self.auth_model = Mock(extra_data={'access_token': 123})
 
-        def get(provider=None):
-            return self.auth_model
+        def related_filter(provider=None):
+            return [self.auth_model]
 
-        self.user.social_auth.get = get
+        self.user.social_auth.filter = related_filter
         self.requests.get.return_value = Mock(json=lambda: self.data)
         self.actual_data = StravaServiceClient.get_user_data(self.user)
 
@@ -110,11 +110,6 @@ class ViewsTests(TestCase):
         response = StravaActivities.as_view()(self.request)
         response.render()
         self.assertEqual(json.loads(response.content), {'distance': 10})
-
-    def test_strava_gear_endpoint_returns_gear_data(self):
-        response = StravaGear.as_view()(self.request, '123')
-        response.render()
-        self.assertEqual(json.loads(response.content), {'gear': 'data'})
 
     def test_strava_activities_endpoint_takes_query_parameters(self):
         request = self.factory.get('fake/url', {

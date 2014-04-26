@@ -2,6 +2,10 @@ from django.db import models
 
 
 class Gear(models.Model):
+
+    user = models.ForeignKey(
+        'extended_user.ExtendedUser', related_name='gear')
+
     name = models.CharField(max_length=255)
     untracked_mileage = models.FloatField(default=0)
     lifetime = models.FloatField(default=2000)

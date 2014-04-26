@@ -3,8 +3,11 @@ import os
 
 from django.test import TestCase
 from mock import patch
+from rest_framework.test import APIRequestFactory
 
 from activities.models import Activity
+from activities.views import ActivityList
+from extended_user.models import ExtendedUser
 
 
 APP_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -12,6 +15,8 @@ APP_PATH = os.path.abspath(os.path.dirname(__file__))
 
 class ActivityObjectsManagerTests(TestCase):
     def setUp(self):
+        self.user = ExtendedUser.objects.create_user(
+            username='Bob', password='Saget')
         self.raw_sample_data = open('%s/sample_activity_data.json' % APP_PATH)
         self.sample_data = json.load(self.raw_sample_data)
 
@@ -23,12 +28,12 @@ class ActivityObjectsManagerTests(TestCase):
         activities = Activity.objects.all()
         self.assertEqual(len(activities), 0)
 
-        Activity.objects.refresh()
+        Activity.objects.refresh(self.user)
         activities = Activity.objects.all()
         self.assertEqual(len(activities), 3)
 
     def test_refresh_creates_new_objects3(self):
-        Activity.objects.refresh()
+        Activity.objects.refresh(self.user)
         activities = Activity.objects.all()
         self.assertEqual(
             activities[0].strava_id, str(self.sample_data[0]['id']))
@@ -36,10 +41,24 @@ class ActivityObjectsManagerTests(TestCase):
             activities[2].strava_id, str(self.sample_data[2]['id']))
 
     def test_refresh_does_not_duplicate_activity_entries(self):
-        Activity.objects.refresh()
+        Activity.objects.refresh(self.user)
         activities = Activity.objects.all()
         self.assertEqual(len(activities), 3)
 
-        Activity.objects.refresh()
+        Activity.objects.refresh(self.user)
         activities = Activity.objects.all()
         self.assertEqual(len(activities), 3)
+
+
+class ActivityViewTests(TestCase):
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.request = self.factory.get('get_activities/', {
+            'refresh': 'true'
+        })
+        self.request.user = ExtendedUser.objects.create_user(
+            username='Bob', password='Saget')
+        self.response = ActivityList.as_view()(self.request)
+
+    def test_returns_ok_on_good_input(self):
+        self.assertEqual(self.response.status_code, 200)

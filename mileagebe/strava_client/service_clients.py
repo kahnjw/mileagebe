@@ -45,8 +45,8 @@ class StravaServiceClient(object):
 
     @classmethod
     def _make_request(cls, user, endpoint):
-        extra_data = user.social_auth.get(provider='strava').extra_data
-        access_token = extra_data['access_token']
+        social_user = user.social_auth.filter(provider='strava')[0]
+        access_token = social_user.extra_data['access_token']
 
         return requests.get(cls._build_uri(endpoint), params={
             'access_token': access_token
