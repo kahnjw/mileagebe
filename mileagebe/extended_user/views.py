@@ -3,6 +3,7 @@ from django.http import Http404
 from rest_framework import status
 from rest_framework.generics import (ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -11,6 +12,7 @@ from extended_user.serializers import ExtendedUserSerializer
 
 
 class ExtendedUserList(ListCreateAPIView):
+    permission_classes = (AllowAny,)
     queryset = ExtendedUser.objects.all()
     serializer_class = ExtendedUserSerializer
 

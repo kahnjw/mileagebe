@@ -4,6 +4,7 @@ from django.test import TestCase, RequestFactory
 from mock import Mock, patch
 from pint import UndefinedUnitError
 
+from extended_user.models import ExtendedUser
 from strava_client.service_clients import StravaServiceClient
 from strava_client.views import StravaUser, StravaActivities
 
@@ -93,6 +94,10 @@ class ViewsTests(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.request = self.factory.get('fake/url')
+        self.user = ExtendedUser.objects.create(
+            username='j', password='rad')
+
+        self.request.user = self.user
 
         self.client_pather = patch('strava_client.views.StravaServiceClient')
         self.client = self.client_pather.start()
@@ -116,7 +121,7 @@ class ViewsTests(TestCase):
             'distance': 'miles',
             'max_speed': 'miles.hour'
         })
-        request.user = 'user'
+        request.user = self.user
         StravaActivities.as_view()(request)
         self.client.get_activities.assert_called_with(
             request.user, distance='miles', max_speed=['miles', 'hour'])
