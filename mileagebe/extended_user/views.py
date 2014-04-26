@@ -1,4 +1,6 @@
+from django.contrib.auth import logout
 from django.http import Http404
+from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.generics import (ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
@@ -44,3 +46,9 @@ class Me(APIView):
         serialized_user = self.serializer_class(request.user)
 
         return Response(serialized_user.data)
+
+
+class SessionLogout(APIView):
+    def get(self, request):
+        logout(request)
+        return redirect('/')
