@@ -7,8 +7,10 @@ class StravaQueryParamFixMiddleware:
             get = request.GET.copy()
             queryparam = get['redirect_state']
             m = re.search(r'(\w+)[?]code=(\w+)', queryparam)
-            get['redirect_state'] = m.group(1)
-            get['code'] = m.group(2)
-            request.GET = get
-
+            try:
+                get['redirect_state'] = m.group(1)
+                get['code'] = m.group(2)
+                request.GET = get
+            except:
+                pass
         return None
