@@ -1,8 +1,10 @@
-from rest_framework import routers
+from django.conf.urls import patterns, url
 
-from gear.views import GearViewSet
+from gear.views import GearList, GearDetail
 
 
-router = routers.SimpleRouter()
-router.register(r'items', GearViewSet)
-urlpatterns = router.urls
+urlpatterns = patterns(
+    '',
+    url(r'$', GearList.as_view(), name='gear-list'),
+    url(r'(?P<pk>\d+)/?$', GearDetail.as_view(), name='gear-detail')
+)
