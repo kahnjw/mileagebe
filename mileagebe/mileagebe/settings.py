@@ -85,3 +85,9 @@ SOCIAL_AUTH_LOGIN_URL = '/#login'
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/#profile'
 
 AUTH_USER_MODEL = 'extended_user.ExtendedUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
