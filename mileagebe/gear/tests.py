@@ -32,8 +32,7 @@ class GearViewTests(TestCase):
         self.request.user = ExtendedUser.objects.create_user(
             username='Bob', password='Saget')
 
-        self.view = GearList()
-        self.response = self.view.post(self.request)
+        self.response = GearList.as_view()(self.request)
 
     def test_it_creates_gear(self):
         self.configure_test()
