@@ -17,10 +17,10 @@ class ServiceClientBaseTestSetup(TestCase):
         self.user = Mock()
         self.auth_model = Mock(extra_data={'access_token': 123})
 
-        def get(provider=None):
-            return self.auth_model
+        def related_filter(provider=None):
+            return [self.auth_model]
 
-        self.user.social_auth.get = get
+        self.user.social_auth.filter = related_filter
         self.requests.get.return_value = Mock(json=lambda: self.data)
         self.actual_data = StravaServiceClient.get_user_data(self.user)
 
