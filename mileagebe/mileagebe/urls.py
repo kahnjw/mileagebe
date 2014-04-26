@@ -11,7 +11,8 @@ urlpatterns = patterns(
         include('social.apps.django_app.urls', namespace='social')),
     url(r'^api/v1/strava', include('strava_client.urls')),
     url(r'^api/v1/gear/', include('gear.urls')),
-    url(r'^api/v1/activities/', include('activities.urls'))
+    url(r'^api/v1/activities/', include('activities.urls')),
+    url(r'^api/v1/', include('root.urls'))
 )
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
