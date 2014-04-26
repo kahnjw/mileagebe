@@ -40,7 +40,6 @@ class StravaServiceClient(object):
     def _get_unit(cls, unit):
         if type(unit) is tuple or type(unit) is list:
             return getattr(cls.ureg, unit[0]) / getattr(cls.ureg, unit[1])
-
         return getattr(cls.ureg, unit)
 
     @classmethod
