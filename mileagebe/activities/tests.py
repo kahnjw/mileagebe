@@ -3,8 +3,10 @@ import os
 
 from django.test import TestCase
 from mock import patch
+from rest_framework.test import APIRequestFactory
 
 from activities.models import Activity
+from activities.views import ActivityList
 from extended_user.models import ExtendedUser
 
 
@@ -46,3 +48,17 @@ class ActivityObjectsManagerTests(TestCase):
         Activity.objects.refresh(self.user)
         activities = Activity.objects.all()
         self.assertEqual(len(activities), 3)
+
+
+class ActivityViewTests(TestCase):
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.request = self.factory.get('get_activities/', {
+            'refresh': 'true'
+        })
+        self.request.user = ExtendedUser.objects.create_user(
+            username='Bob', password='Saget')
+        self.response = ActivityList.as_view()(self.request)
+
+    def test_returns_ok_on_good_input(self):
+        self.assertEqual(self.response.status_code, 200)
