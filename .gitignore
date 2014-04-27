@@ -8,3 +8,4 @@ sdist/
 virtualenv/
 *.pyc
 tests/*.db
+venv/*

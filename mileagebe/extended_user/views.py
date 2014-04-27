@@ -1,4 +1,4 @@
-from django.contrib.auth import logout
+from django.contrib.auth import authenticate, login, logout
 from django.http import Http404
 from rest_framework import status
 from rest_framework.generics import (ListCreateAPIView,
@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from extended_user.models import ExtendedUser
-from extended_user.serializers import ExtendedUserSerializer
+from extended_user.serializers import ExtendedUserSerializer, LoginSerializer
 
 
 class ExtendedUserList(ListCreateAPIView):
@@ -49,7 +49,33 @@ class Me(APIView):
         return Response(serialized_user.data)
 
 
-class SessionLogout(APIView):
-    def get(self, request):
+class Session(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        serializer = LoginSerializer(data=request.DATA)
+
+        if not serializer.is_valid():
+            return Response(
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        username = serializer.data['username']
+        password = serializer.data['password']
+
+        return self.login(request, username, password)
+
+    def login(self, request, username, password):
+
+        user = authenticate(username=username, password=password)
+
+        if user and user.is_active:
+            login(request, user)
+            return Response({
+                'success': True
+            }, status=status.HTTP_201_CREATED)
+
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
+    def delete(self, request):
         logout(request)
-        return Response({'status': 'SUCCESS'})
+        return Response({'success': True})

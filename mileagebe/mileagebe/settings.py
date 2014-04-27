@@ -1,5 +1,7 @@
 import os
 
+import dj_database_url
+
 try:
     from mileagebe import sensitive_settings
 except:
@@ -27,7 +29,8 @@ INSTALLED_APPS = (
     'strava_client',
     'activities',
     'gear',
-    'django_nose'
+    'django_nose',
+    'gunicorn',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -46,13 +49,13 @@ WSGI_APPLICATION = 'mileagebe.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config()
 }
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+ALLOWED_HOSTS = ['*']
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
