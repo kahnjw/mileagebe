@@ -1,7 +1,5 @@
 import os
 
-import dj_database_url
-
 try:
     from mileagebe import sensitive_settings
 except:
@@ -48,16 +46,12 @@ WSGI_APPLICATION = 'mileagebe.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-DB_CONFIG = dj_database_url.config()
 
-if DB_CONFIG == {}:
-    DB_CONFIG = {
+DATABASES = {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-
-DATABASES = {
-    'default': DB_CONFIG
 }
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
