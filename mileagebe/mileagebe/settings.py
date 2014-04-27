@@ -30,7 +30,6 @@ INSTALLED_APPS = (
     'activities',
     'gear',
     'django_nose',
-    'gunicorn',
 )
 
 MIDDLEWARE_CLASSES = (
