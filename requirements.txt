@@ -10,6 +10,7 @@ gunicorn==18.0
 psycopg2==2.5.1
 static==0.4
 wsgiref==0.1.2
+uWSGI==2.0.4
 
 coveralls==0.4.1
 mock==1.0
