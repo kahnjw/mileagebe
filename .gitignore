@@ -9,3 +9,4 @@ virtualenv/
 *.pyc
 tests/*.db
 venv/*
+configuration.json

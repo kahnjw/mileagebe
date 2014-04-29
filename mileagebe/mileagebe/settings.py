@@ -1,19 +1,19 @@
 import os
-
-import dj_database_url
-
-try:
-    from mileagebe import sensitive_settings
-except:
-    from mileagebe import fake_sensitive_settings as sensitive_settings
-
+import json
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-SECRET_KEY = sensitive_settings.SECRET_KEY
+APP_DIR = os.path.join(BASE_DIR, '..')
+
+try:
+    sensitive_settings = json.load(open('%s/configuration.json' % APP_DIR))
+except:
+    from mileagebe.fake_sensitive_settings import (
+        SENSITIVE_SETTINGS as sensitive_settings)
+
+SECRET_KEY = sensitive_settings['SECRET_KEY']
 DEBUG = True
 TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
-
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -29,8 +29,7 @@ INSTALLED_APPS = (
     'strava_client',
     'activities',
     'gear',
-    'django_nose',
-    'gunicorn',
+    'django_nose'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -49,16 +48,9 @@ WSGI_APPLICATION = 'mileagebe.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-DB_CONFIG = dj_database_url.config()
-
-if DB_CONFIG == {}:
-    DB_CONFIG = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
 
 DATABASES = {
-    'default': DB_CONFIG
+    'default': sensitive_settings['DB_CONFIG']
 }
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -87,9 +79,12 @@ USE_X_FORWARDED_HOST = True
 STRAVA_BASE_URI = 'https://www.strava.com/api/v3/'
 
 # Strava OAuth Configuration:
-SOCIAL_AUTH_STRAVA_KEY = sensitive_settings.SOCIAL_AUTH_STRAVA_KEY
-SOCIAL_AUTH_STRAVA_SECRET = sensitive_settings.SOCIAL_AUTH_STRAVA_SECRET
-AUTHENTICATION_BACKENDS = sensitive_settings.SOCIAL_AUTH_AUTHENTICATION_BACKENDS
+SOCIAL_AUTH_STRAVA_KEY = sensitive_settings['SOCIAL_AUTH_STRAVA_KEY']
+SOCIAL_AUTH_STRAVA_SECRET = sensitive_settings['SOCIAL_AUTH_STRAVA_SECRET']
+AUTHENTICATION_BACKENDS = (
+    'social.backends.strava.StravaOAuth',
+    'django.contrib.auth.backends.ModelBackend'
+)
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/#mileage'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/#auth-error'
