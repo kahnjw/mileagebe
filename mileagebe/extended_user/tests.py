@@ -14,7 +14,7 @@ class ExtendedUserSerializerTests(TestCase):
         self.serializer = ExtendedUserSerializer(user)
 
     def test_returns_url_fields(self):
-        self.assertEqual(self.serializer.data['url'], '/api/v1/users/1')
+        self.assertIn('/api/v1/users/', self.serializer.data['url'])
 
     def test_returns_username_field(self):
         self.assertEqual(self.serializer.data['username'], 'Bob')
@@ -38,7 +38,7 @@ class ExtendedUserListTests(TestCase):
 
     def test_endopint_returns_user_representation(self):
         self.assertEqual(self.response_body['username'], 'Bob')
-        self.assertEqual(self.response_body['url'], '/api/v1/users/1')
+        self.assertIn('/api/v1/users/', self.response_body['url'])
 
     def test_endopint_returns_400_on_bad_input(self):
         data = {
@@ -67,4 +67,4 @@ class MeEndpointTests(TestCase):
 
     def test_returns_a_user_representation(self):
         self.assertEqual(self.response_body['username'], 'Bob')
-        self.assertEqual(self.response_body['url'], '/api/v1/users/1')
+        self.assertIn('/api/v1/users/', self.response_body['url'])
