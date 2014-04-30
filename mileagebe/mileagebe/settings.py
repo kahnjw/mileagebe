@@ -71,6 +71,7 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = sensitive_settings['STATIC_ROOT']
 
 # Use the xff, using proxy
 USE_X_FORWARDED_HOST = True

@@ -5,5 +5,6 @@ SENSITIVE_SETTINGS = {
     "DB_CONFIG": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": "db.sqlite3"
-    }
+    },
+    "STATIC_ROOT": "/static"
 }
