@@ -12,4 +12,4 @@ class ActivitySerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'strava_id', 'location_city', 'distance', 'gear',
                   'max_speed', 'average_speed', 'total_elevation_gain', 'user',
                   'moving_time', 'name', 'nice_moving_time',
-                  'nice_start_date')
+                  'nice_start_date', 'id')
