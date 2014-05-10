@@ -10,4 +10,4 @@ class GearSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Gear
         fields = ('name', 'untracked_mileage', 'lifetime', 'user', 'url',
-                  'activities', 'total_mileage', 'miles_left')
+                  'activities', 'total_mileage', 'miles_left', 'id')
