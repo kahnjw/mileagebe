@@ -54,6 +54,9 @@ class Activity(models.Model):
         return str(datetime.timedelta(seconds=self.moving_time))
 
     def get_nice_start_date(self):
+        if not self.start_date_time:
+            return ''
+
         time = datetime.datetime.strptime(
             self.start_date_time, '%Y-%m-%dT%H:%M:%SZ')
         return '%s/%s/%s' % (time.month, time.day, time.year)
